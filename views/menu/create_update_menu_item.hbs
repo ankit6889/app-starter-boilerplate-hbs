@@ -1,0 +1,296 @@
+<form action="/navigation/menu-item" method="post" enctype="multipart/form-data">
+	<input type="hidden" name="_csrf" value="{{csrfToken}}">
+	<input type="hidden" name="_id" value="{{menuItem._id}}">
+	<div class="limiter">
+		<div class="container-login100">
+			<div class="wrap-login100">
+				<form class="login100-form validate-form flex-sb flex-w">
+					<span class="login100-form-title p-b-23">
+						Menu Items
+					</span>
+
+					<div class="menu-items-text100">
+						<span class="txt1">
+							Type Of Menu
+						</span>
+					</div>
+					<div class="radio-input100">
+						<label class="radio-inline w-50" data-toggle="tooltip" data-placement="top"
+							title="Top Menus contain other sub menu items">
+							<input type="radio" name="menu_type" checked="checked" value="top_menu"
+								id="top_menu_radio_btn">&nbsp; Top Menu
+						</label>
+						<label class="radio-inline w-50" data-toggle="tooltip" data-placement="top"
+							title="Sub menus contain product categories">
+							<input type="radio" name="menu_type" value="sub_menu" id="sub_menu_radio_btn">&nbsp; Sub
+							Menu
+						</label>
+						<label class="radio-inline w-50" data-toggle="tooltip" data-placement="top"
+							title="Sub menus contain product categories">
+							<input type="radio" name="menu_type" value="web_menu" id="web_menu_radio_btn">&nbsp; Web
+							Menu
+						</label>
+					</div>
+
+					<div class="menu-items-text100">
+						<span class="txt1">
+							Display Style
+						</span>
+					</div>
+					<div class="radio-input100">
+						<label class="radio-inline w-50" data-toggle="tooltip" data-placement="top"
+							title="Fills one row">
+							<input type="radio" name="is_stretched" checked value="true" id="streched_radio_btn">&nbsp;
+							Stretched
+						</label>
+						<label class="radio-inline w-50" data-toggle="tooltip" data-placement="top"
+							title="Fills half row">
+							<input type="radio" name="is_stretched" value="false" id="un_streched_radio_btn">&nbsp;
+							Un-Stretched
+						</label>
+					</div>
+
+					<div class="menu-items-text100">
+						<span class="txt1">
+							Display Name
+						</span>
+					</div>
+					<div class="wrap-input100 validate-input" data-validate="Display Name is required">
+						<input class="input100 form-control" type="text" name="display_name"
+							value="{{menuItem.display_name}}" required>
+						<span class="focus-input100"></span>
+						<div class="invalid-feedback">
+							Display Name is required.
+						</div>
+					</div>
+
+					<div class="menu-items-text100">
+						<span class="txt1">
+							Show Display Name
+						</span>
+					</div>
+					<div class="radio-input100">
+						<label class="radio-inline w-50" data-toggle="tooltip" data-placement="top" title="Yes">
+							<input type="radio" name="display_name_on_screen" checked value="true"
+								id="display_name_on_screen_radio_btn">&nbsp; Yes
+						</label>
+						<label class="radio-inline w-50" data-toggle="tooltip" data-placement="top" title="No">
+							<input type="radio" name="display_name_on_screen" value="false"
+								id="no_display_name_on_screen_radio_btn">&nbsp; No
+						</label>
+					</div>
+					<div class="img-block100">
+						<div class="w-50 ">
+							<div class="menu-items-text100">
+								<span class="txt1">
+									Tile Image
+								</span>
+							</div>
+							<div class="img-container">
+								<div class="avatar-upload">
+									<div class="avatar-edit">
+										<input type='file' id="imageUpload" name="tile_image" class="imageUpload"
+											accept=".png, .jpg, .jpeg" />
+										<label for="imageUpload"></label>
+									</div>
+									<div class="avatar-preview">
+										<div id="imagePreview-tile_image"
+											style="background-image: url({{menuItem.tile_image}});">
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="w-50 ml-md-5" id="hero-image-div">
+							<div class="menu-items-text100">
+								<span class="txt1">
+									Hero Image
+								</span>
+							</div>
+							<div class="img-container">
+								<div class="avatar-upload">
+									<div class="avatar-edit">
+										<input type='file' id="imageUpload2" class="imageUpload" name="hero_image"
+											accept=".png, .jpg, .jpeg, .gif" />
+										<label for="imageUpload2"></label>
+									</div>
+									<div class="avatar-preview">
+										<div id="imagePreview-hero_image"
+											style="background-image: url({{menuItem.hero_image}});">
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+
+					</div>
+
+
+
+					<div id="top-menu-div">
+						<div class="menu-items-text100">
+							<span class="txt1">
+								Select Sub Menu
+							</span>
+						</div>
+
+						<div class="wrap-input100">
+
+							<select id="children" name="children"
+								data-style="bg-white rounded-pill px-4 py-3 shadow-sm " class="w-100"
+								multiple="multiple">
+								{{#each menuItems}}
+								{{#ifNotEqualsObj _id ../menuItem._id}}
+								<option value="{{_id}}" {{#each ../menuItem.children}} {{#ifCondObj this ../_id}}
+									selected {{/ifCondObj}} {{/each}}>{{display_name}}</option>
+								{{/ifNotEqualsObj}}
+								{{/each}}
+							</select>
+
+						</div>
+					</div>
+
+					<div id="sub-menu-div">
+						<div class="menu-items-text100">
+							<span class="txt1">
+								Select Category
+							</span>
+						</div>
+
+						<div class="wrap-input100">
+
+							<select id="categories" name="categories"
+								data-style="bg-white rounded-pill px-4 py-3 shadow-sm " class="w-100"
+								multiple="multiple">
+								{{#each collections}}
+								<option value="{{_id}}" {{#each ../menuItem.categories}} {{#ifCondObj this ../_id}}
+									selected {{/ifCondObj}} {{/each}}>{{#if title_en}}{{title_en}}{{else}} {{title}}
+									{{/if}} ({{collection_type}})</option>
+								{{/each}}
+							</select>
+
+						</div>
+
+						<div class="menu-items-text100">
+							<span class="txt1">
+								Select Filters
+							</span>
+						</div>
+
+						<div class="wrap-input100">
+
+							<select id="filters" name="filters" data-style="bg-white rounded-pill px-4 py-3 shadow-sm "
+								class="w-100" multiple="multiple">
+								{{#each filters}}
+								<option value="{{id}}" {{#each ../menuItem.filters}} {{#ifCondObj this ../id}} selected
+									{{/ifCondObj}} {{/each}}>{{id}}</option>
+								{{/each}}
+							</select>
+
+						</div>
+					</div>
+
+					<div id="web-menu-div">
+						<div class="menu-items-text100">
+							<span class="txt1">
+								Enter Web URL
+							</span>
+						</div>
+
+						<div class="wrap-input100 validate-input" data-validate="Web URL is required">
+							<input class="input100 form-control" type="text" name="url" value="{{menuItem.url}}">
+							<span class="focus-input100"></span>
+							<div class="invalid-feedback">
+								Web URL is required.
+							</div>
+						</div>
+					</div>
+
+
+					<div class="img-block100 w-100">
+						<div class="createmenu-btn100 w-md-50 cancel100 m-t-17">
+							<a class="login100-form-btn" href="/navigation/menu-items">Cancel</a>
+						</div>
+
+						<div class="createmenu-btn100 w-md-50 m-t-17">
+							<button class="login100-form-btn">Save</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</form>
+
+
+<!-- Initialize the plugin: -->
+<script type="text/javascript">
+	var categories = {{{ json collections }}};
+	var menuItems = {{{ json menuItems }}};
+	var menuItem = {{{ json menuItem }}};
+
+	function disableMenuItemsSelection() {
+		$('#sub_menu_radio_btn').attr('disabled', true);
+		$('#top_menu_radio_btn').attr('disabled', true);
+		$('#web_menu_radio_btn').attr('disabled', true);
+	}
+
+	function setInitialData() {
+		if (menuItem && menuItem.categories && menuItem.categories.length) {
+			$('#sub_menu_radio_btn').attr('checked', true);
+			disableMenuItemsSelection();
+		}
+
+		if (menuItem && menuItem.children && menuItem.children.length) {
+			disableMenuItemsSelection();
+		}
+
+		if (menuItem && menuItem.url) {
+			$('#web_menu_radio_btn').attr('checked', true);
+			disableMenuItemsSelection();
+		}
+
+		if (menuItem && !menuItem.is_stretched) {
+			$('#un_streched_radio_btn').attr('checked', true);
+		}
+		if (menuItem && !menuItem.display_name_on_screen) {
+			$('#no_display_name_on_screen_radio_btn').attr('checked', true);
+		}
+	}
+
+	function handleMenuItemFieldsShowHide() {
+		var menuType = $('input[name=menu_type]:checked').val();
+		if (menuType === 'sub_menu') {
+			// show categories
+			$('#sub-menu-div').show();
+			$('#hero-image-div').show();
+			$('#top-menu-div').hide();
+			$('#web-menu-div').hide();
+		} else if (menuType === 'top_menu') {
+			// show menu items
+			$('#top-menu-div').show();
+			$('#sub-menu-div').hide();
+			$('#hero-image-div').hide();
+			$('#web-menu-div').hide();
+		} else {
+			// show url for web menu item
+			$('#web-menu-div').show();
+			$('#top-menu-div').hide();
+			$('#sub-menu-div').hide();
+			$('#hero-image-div').hide();
+		}
+	}
+	$(document).ready(function () {
+		$('#categories').select2()
+		$('#children').select2();
+		$('#filters').select2();
+
+		setInitialData();
+		handleMenuItemFieldsShowHide();
+
+		$('input[name=menu_type]').on('change', function (event) {
+			handleMenuItemFieldsShowHide();
+		});
+	});
+</script>

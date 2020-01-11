@@ -1,0 +1,38 @@
+<div class="limiter">
+    <div class="container-login100 overview100 " style="align-items: inherit;">
+        <div class="row justify-content-around">
+            <div class="card100 col-md-6 col-sm-12 mx-md-3 my-sm-3">
+                <h4 class="card100-header">Last Synced</h4>
+                <div class="card100-body text-muted">
+                    <span id="last_sync_date">24-Jan-2020 16:00Hrs</span>
+                </div>
+            </div>
+
+            <div class="card100 col-md-6 col-sm-12 mx-md-3 my-sm-3">
+                <h4 class="card100-header">Products Synced</h4>
+                <div class="card100-body text-muted">
+                    <span>2020 Variants</span>
+                </div>
+            </div>
+
+            <div class="card100 col-md-6 col-sm-12 mx-md-3 my-sm-3">
+                <h4 class="card100-header">Categories Synced</h4>
+                <div class="card100-body text-muted">
+                    <span>48</span>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+{{!-- 
+<script>
+    var lastSyncDate = {{{ json data.lastSyncAt }}}
+    $(document).ready(function () {
+        if (lastSyncDate && lastSyncDate != '-') {
+            lastSyncDate = moment(lastSyncDate).format('MM/DD/YYYY h:mm a');
+            $('#last_sync_date').text(lastSyncDate);
+        }
+    });
+</script> --}}

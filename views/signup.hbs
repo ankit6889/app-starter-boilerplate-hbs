@@ -1,0 +1,76 @@
+<style>
+    .error-message {
+        color: red;
+    }
+</style>
+
+<div>
+    <form action="/user/login" method="post">
+        <input type="hidden" name="_csrf" value="{{csrfToken}}">
+        <div class="limiter">
+            <div class="container-login100">
+                <div class="wrap-login100">
+                    <div class="login100-form validate-form flex-sb flex-w">
+                        <span class="login100-form-title p-b-23">
+                            Sign Up
+                        </span>
+                        {{#if msg}}<span class="error-message">{{msg}}</span>{{/if}}
+
+                        <div class="username100">
+                            <span class="txt1">
+                                Your Name
+                            </span>
+                        </div>
+                        <div class="wrap-input100 validate-input" data-validate="Name is required">
+                            <input class="input100" autocomplete="off" type="text" name="name" placeholder="Name"
+                                class="form-control" id="userName" maxlength="30" required>
+                            <span class="focus-input100"></span>
+                        </div>
+
+                        <div class="username100">
+                            <span class="txt1">
+                                Email
+                            </span>
+                        </div>
+                        <div class="wrap-input100 validate-input" data-validate="Email is required">
+                            <input class="input100" autocomplete="off" type="password" name="password"
+                                placeholder="Password" class="form-control" id="userPassword" minlength="6" required>
+                            <span class="focus-input100"></span>
+                        </div>
+
+                        <div class="password100">
+                            <span class="txt1">
+                                Password
+                            </span>
+
+                            {{!-- <a href="#" class="txt2 forgot100 bo1">
+                                Forgot?
+                            </a> --}}
+                        </div>
+                        <div class="wrap-input100 validate-input" data-validate="Password is required">
+                            <input class="input100" autocomplete="off" type="password" name="password"
+                                placeholder="Password" class="form-control" id="userPassword" minlength="6" required>
+                            <span class="focus-input100"></span>
+                        </div>
+
+                        <div class="container-login100-form-btn m-t-17">
+                            <button class="login100-form-btn" type="submit">
+                                Sign Up
+                            </button>
+                        </div>
+
+                        <div class="w-full text-center p-t-55">
+                            <span class="txt2">
+                                Already a member?
+                            </span>
+
+                            <a href="/login" class="txt2 signup-btn-100 bo1">
+                                Sign in now
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

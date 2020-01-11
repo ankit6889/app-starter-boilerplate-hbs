@@ -1,0 +1,53 @@
+<!--Start Navbar-->
+<nav class="navbar navbar-expand-lg navbar-dark sticky-top" style="background: #7b1d1d; height: 6vh;">
+
+	<!-- Navbar brand -->
+	<a class="navbar-brand" href="/">Gypsyphi</a>
+
+	<!-- Collapse button -->
+	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#basicExampleNav"
+		aria-controls="basicExampleNav" aria-expanded="false" aria-label="Toggle navigation">
+		<span class="navbar-toggler-icon"></span>
+	</button>
+
+	<!-- Collapsible content -->
+	<div class="collapse navbar-collapse" id="basicExampleNav">
+
+		{{#if user}}
+		<!-- Links -->
+		<ul class="nav navbar-nav mr-auto">
+
+			{{!-- <li class="nav-item">
+				<a class="nav-link" href="#">Vendo Setup</a>
+			</li> --}}
+			<li class="nav-item">
+				<a class="nav-link" href="/navigation/menus">Menu</a>
+				<span class="sr-only">(current)</span>
+			</li>
+
+			<li class="nav-item">
+				<a class="nav-link" href="/navigation/menu-items">Menu Items</a>
+			</li>
+		</ul>
+		{{/if}}
+		<!-- Links -->
+		<ul class="nav navbar-nav ml-auto">
+			{{#if user}}
+			<li class="nav-item">
+				<a class="nav-link" href="/user/account">My Account</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link" href="/user/logout">Logout</a>
+			</li>
+			{{else}}
+			<li class="nav-item">
+				<a class="nav-link" href="/user/logout">Login</a>
+			</li>
+			{{/if}}
+
+		</ul>
+	</div>
+	<!-- Collapsible content -->
+
+</nav>
+<!--End Navbar-->

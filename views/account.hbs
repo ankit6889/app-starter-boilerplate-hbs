@@ -1,0 +1,147 @@
+<style>
+    .syncing_now_btn {
+        display: none;
+        opacity: 0.5;
+    }
+</style>
+
+<form action="/stores" method="post">
+    <input type="hidden" name="_csrf" value="{{csrfToken}}">
+    <div class="limiter">
+        <div class="container-login100">
+            <div class=" wrap-login100">
+
+                <form class="login100-form validate-form flex-sb flex-w">
+                    <span class="login100-form-title p-b-23">
+                        My Account
+                    </span>
+
+                    <div class="account100">
+                        <span class="txt1">
+                            First Name
+                        </span>
+                    </div>
+                    <div class="wrap-input100 validate-input">
+                        <input class="input100" type="text" name="first_name" value="{{storeDetail.first_name}}">
+                        <span class="focus-input100"></span>
+                    </div>
+
+                    <div class="account100">
+                        <span class="txt1">
+                            Last Name
+                        </span>
+                    </div>
+                    <div class="wrap-input100 validate-input">
+                        <input class="input100" type="text" name="last_name" value="{{storeDetail.last_name}}">
+                        <span class="focus-input100"></span>
+                    </div>
+
+                    <div class="account100">
+                        <span class="txt1">
+                            Username
+                        </span>
+                    </div>
+                    <div class="wrap-input100 validate-input" data-validate="Username is required">
+                        <input class="input100" type="text" name="vendo_username"
+                            value="{{storeDetail.vendo_username}}">
+                        <span class="focus-input100"></span>
+                    </div>
+
+                    <div class="account100">
+                        <span class="txt1">
+                            Password
+                        </span>
+                    </div>
+                    <div class="wrap-input100 validate-input" data-validate="Password is required">
+                        <input class="input100" type="password" name="vendo_password"
+                            value="{{storeDetail.vendo_password}}">
+                        <span class="focus-input100"></span>
+                    </div>
+
+                    <div class="account100">
+                        <span class="txt1">
+                            Currency
+                        </span>
+                    </div>
+                    <div class="wrap-input100 validate-input">
+                        <input class="input100" type="text" name="currency" value="{{storeDetail.currency}}">
+                        <span class="focus-input100"></span>
+                    </div>
+
+                    <div class="account100">
+                        <span class="txt1">
+                            Country Code
+                        </span>
+                    </div>
+                    <div class="wrap-input100 validate-input">
+                        <input class="input100" type="text" name="country_code" value="{{storeDetail.country_code}}">
+                        <span class="focus-input100"></span>
+                    </div>
+
+                    <div class="account100">
+                        <span class="txt1">
+                            Brands
+                        </span>
+                        <span>(Comma separated, case sensitive)</span>
+                    </div>
+                    <div class="wrap-input100 validate-input">
+                        <input class="input100" type="text" name="brands" value="{{storeDetail.brands}}">
+                        <span class="focus-input100"></span>
+                    </div>
+
+
+                    <div class="container-login100-form-btn m-t-17">
+                        <button class="login100-form-btn" type="submit">
+                            Save
+                        </button>
+                    </div>
+                </form>
+
+                <div class="img-block100 w-100 sync_now_btn">
+                    <div class="sync-btn100 w-md-50 cancel100 m-t-17">
+                        <a title="Syncs only modified products data (Recommended)" href="javascript:;"
+                            class="login100-form-btn " onclick="syncStoreProducts(event)" id="sync_now_btn">Sync Now
+                        </a>
+                    </div>
+
+                    <div class="sync-btn100 w-md-50 cancel100 m-t-17">
+                        <a title="Syncs all product irrespective of change (Not Recommended)" href="javascript:;"
+                            class="login100-form-btn" onclick="syncStoreProducts(event, true)" id="hard_sync_btn">Hard
+                            Sync </a>
+                    </div>
+                </div>
+
+                <div class="img-block100 w-100 syncing_now_btn">
+                    <div class="sync-btn100 w-md-100 m-t-17">
+                        <a href="javascript:;" class="login100-form-btn">Syncing...
+                        </a>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</form>
+
+
+<script>
+    function syncStoreProducts(event, hardSync) {
+        $('.sync_now_btn').hide();
+        $('.syncing_now_btn').show();
+
+        var syncNowBtn = $(event.target);
+        axios.post('/products/sync', { hardSync: !!hardSync })
+            .then(function (data) {
+                $('.sync_now_btn').show();
+                $('.syncing_now_btn').hide();
+                alert(data.data.msg);
+            })
+            .catch(function (error) {
+                $('.sync_now_btn').show();
+                $('.syncing_now_btn').hide();
+                alert(error.response.data.msg);
+                console.log(error);
+            });
+    }
+</script>

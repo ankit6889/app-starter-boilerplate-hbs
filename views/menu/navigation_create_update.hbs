@@ -1,0 +1,190 @@
+<style>
+    .btn:disabled {
+        color: yellow;
+    }
+</style>
+
+<div class="limiter">
+    <div class="container-login100">
+        <div class="wrap-login100">
+            <form class="login100-form validate-form flex-sb flex-w" method="POST"
+                action="/navigation/menu/create-update" enctype="multipart/form-data" id="menu_create_update_form">
+                <input type="hidden" name="_csrf" value="{{csrfToken}}">
+                <input type="hidden" name="_id" value="{{navigationMenu._id}}">
+                <input type="hidden" name="sorted-menu-items" id="sorted-menu-items" value="{{selectedMenuItems}}">
+                <span class="login100-form-title p-b-23">
+                    Menu
+                </span>
+
+                <div class="menu-items-text100">
+                    <span class="txt1">
+                        Display Name
+                    </span>
+                </div>
+                <div class="wrap-input100 validate-input" data-validate="Display Name is required">
+                    <input class="input100" type="text" name="menu_name" value="{{navigationMenu.menu_name}}" required>
+                    <span class="focus-input100"></span>
+                </div>
+
+                <div class="img-block100 w-100">
+                    <div class="w-100">
+                        <div class="menu-items-text100">
+                            <span class="txt1">
+                                Hero Image
+                            </span>
+                        </div>
+                        <div class="img-container">
+                            <div class="menu-img-upload d-flex justify-content-center">
+                                <div class="menu-img-edit">
+                                    <input type='file' id="imageUpload" class="imageUpload" name="hero_image"
+                                        accept=".png, .jpg, .jpeg, .gif" />
+                                    <label for="imageUpload"></label>
+                                </div>
+                                <div class="menu-img-preview">
+                                    <div id="imagePreview-hero_image"
+                                        style="background-image: url({{navigationMenu.hero_image}});">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="menu-items-text100 w-100">
+                    <span class="txt1">
+                        Select Menu Items
+                    </span>
+                </div>
+                <div class="wrap-input100">
+                    <select id="select-menu-items" name="items" data-style="bg-white rounded-pill px-4 py-3 shadow-sm "
+                        class="w-100" multiple="multiple">
+                        {{#each menuItems}}
+                        <option value="{{_id}}" {{#each ../navigationMenu.items}} {{#ifCondObj this._id ../_id}}
+                            selected {{/ifCondObj}} {{/each}}>{{id}}</option>
+                        {{/each}}
+                    </select>
+
+                </div>
+
+                <div class="menu-items-text100 w-100">
+                    <span class="txt1">
+                        Device Menu Layout (Drag Images or select menu items in an order)
+                    </span>
+                </div>
+
+                <div class="sortable-block100 w-100 justify-content-center">
+                    <div class="row w-100 justify-content-center m-0" id="sortable">
+                        {{#each navigationMenu.items}}
+                        <div class="{{#if is_stretched}}col-md-12{{else}}col-md-6 width-sm100{{/if}}" id="{{_id}}">
+                            <div class="img-container">
+                                <div
+                                    class="{{#if is_stretched}}menu-img-upload{{else}}avatar-upload{{/if}} d-flex justify-content-center">
+                                    <div class="{{#if is_stretched}}menu-img-preview{{else}}avatar-preview{{/if}}">
+                                        <div id="{{#if is_stretched}}imagePreview-hero_image{{else}}imagePreview{{/if}}"
+                                            style="background-image: url({{this.tile_image}});">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {{/each}}
+                    </div>
+                </div>
+
+                <div class="img-block100 w-100 justify-content-center">
+                    <div class="createmenu-btn100 w-md-50 cancel100 m-t-17">
+                        <a href="/navigation/menus" class="login100-form-btn">
+                            Cancel
+                        </a>
+                    </div>
+
+                    <div class="createmenu-btn100 w-md-50 m-t-17">
+                        <button class="login100-form-btn" id="submit_btn">
+                            Save
+                        </button>
+                    </div>
+
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    var allMenuItems = {{{ json menuItems }}};
+
+    function renderMenuLayout(currentItems) {
+        var html = '';
+        for (var item of currentItems) {
+            for (let navItem of allMenuItems) {
+                if (navItem._id == item) {
+                    html += `<div class="${navItem.is_stretched === true ? 'col-md-12' : 'col-md-6'}" id="${navItem._id}">
+                            <div class="img-container">
+                                <div class="${navItem.is_stretched === true ? 'menu-img-upload' : 'avatar-upload'}">
+                                    <div class="${navItem.is_stretched === true ? 'menu-img-preview' : 'avatar-preview'}">
+                                        <div id="${navItem.is_stretched === true ? 'imagePreview-hero_image' : 'magePreview'}"
+                                            style="background-image: url(${navItem.tile_image});">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>`;
+                }
+            }
+        }
+        $('#sortable').html(html);
+    }
+</script>
+<script>
+
+    function makeItSortable(elem) {
+        $(elem).sortable({
+            start: function (event, ui) {
+                //console.log(ui.item);
+                //debugger;
+                //get current element being sorted
+            },
+            stop: function (event, ui) {
+                var sorted = $(elem).sortable("toArray");
+                $('#sorted-menu-items').val(sorted.join(','));
+            }
+        });
+    }
+
+    $(function () {
+        makeItSortable("#sortable");
+        $('#select-menu-items').select2()
+
+        $('#select-menu-items').on('change', function () {
+            var currentItems = $('#select-menu-items').val();
+            $('#sorted-menu-items').val(currentItems.join(','));
+            renderMenuLayout(currentItems);
+        });
+
+        $('#menu_create_update_form').on('submit', function(e) {
+            e.preventDefault();
+            var formData = new FormData(this);
+            $('#submit_btn').attr('disabled', true).addClass('btn-disabled');
+            $.ajax({
+                type:'POST',
+                url: $(this).attr('action'),
+                data:formData,
+                cache:false,
+                contentType: false,
+                processData: false,
+                success:function(data){
+                    alert('updated');
+                    $('#submit_btn').attr('disabled', false).removeClass('btn-disabled');
+                },
+                error: function(data){
+                    alert(data.responseJSON.msg);
+                    console.log(data);
+                    $('#submit_btn').attr('disabled', false).removeClass('btn-disabled');
+                }
+            });
+
+        });
+    });
+</script>

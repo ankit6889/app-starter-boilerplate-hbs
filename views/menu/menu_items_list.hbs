@@ -1,0 +1,77 @@
+<style>
+    td img {
+        width: 150px;
+    }
+</style>
+
+<div class="container-login100" style="align-items: inherit;">
+    <div class="wrap-table100">
+        <div class="row">
+            <div class="col-sm-12 col-md-4 col-lg-3 d-flex flex-row-reverse ml-auto pb-3">
+                <a href="/navigation/menu-item" class="btn btn-primary btn-md w-75 width100"><i class="fa fa-plus"
+                        aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;Create New</a>
+            </div>
+        </div>
+        <div class="table100">
+            <table class="table table-light table-hover table-striped">
+                <thead>
+                    <tr class="table100-head">
+                        <th scope="col">Type</th>
+                        <th scope="col">Display Name</th>
+                        <th scope="col">Tile Image</th>
+                        <th scope="col">Hero Image</th>
+                        <th scope="col">Streched</th>
+                        <th scope="col">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#each menuItems}}
+                    <tr>
+                        <td scope="col-2">{{#menutype children url}} {{/menutype}}</td>
+                        <td scope="col-4">{{display_name}}</td>
+                        <td scope="col-2" class="tile-img100">{{#if tile_image}}<img src="{{tile_image}}"
+                                alt="Tile Image">{{/if}}
+                        </td>
+                        <td scope="col-2" class="tile-img100">{{#if hero_image}}<img src="{{hero_image}}"
+                                alt="Hero Image">{{/if}}
+                        </td>
+                        <td>{{#if is_stretched}} Yes {{else}} No {{/if}}</td>
+                        <td scope="col-2"><a href="/navigation/menu-item/{{_id}}" class="btn btn-primary w-75">Edit</a>
+                        </td>
+                    </tr>
+                    {{/each}}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- Modal -->
+<div id="menu-item-modal" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-lg">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>Some text in the modal.</p>
+            </div>
+            <div class="img-block100 w-100">
+                <div class="createmenu-btn100 w-50 cancel100 m-t-17">
+                    <button class="login100-form-btn" data-dismiss="modal">Cancel</button>
+                </div>
+
+                <div class="createmenu-btn100 w-50 m-t-17">
+                    <button class="login100-form-btn">Save</button>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>
